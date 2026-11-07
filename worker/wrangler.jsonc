@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dear-you-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-05-01",
+  "observability": { "enabled": true },
+  "vars": {
+    "APP_ORIGIN": "https://your-production-domain.example"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dear-you-db",
+      "database_id": "6182ba8e-bfeb-4ba3-81d7-62283beb3b2e",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "dear-you-media"
+    }
+  ]
+}
