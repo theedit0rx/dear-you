@@ -5,8 +5,9 @@ A small, considered gifting and connection platform: digital cards, private two-
 ## Current implementation boundary
 
 - **This sandbox:** Next.js 16 / React / TypeScript with PostgreSQL through Drizzle ORM. The app’s `/api/*` routes are runnable against the configured `DATABASE_URL` and enforce server-side authentication, ownership, role checks, throttling, and audit writes.
-- **Cloudflare target:** `worker/` is a separate D1/R2 Worker named `dear-you-api`, configured for the supplied `dear-you-db` database ID. Set `NEXT_PUBLIC_DEAR_YOU_API_URL` to the deployed Worker’s same-site custom API origin to route browser API calls there.
-- **Not verified or deployed:** no Cloudflare deployment was performed in this environment. R2 activation is pending, so the `dear-you-media` bucket and its CORS policy must be created after activation. Stripe remains unavailable until the owner supplies test-mode configuration.
+- **Production API:** `worker/` is deployed as `dear-you-api` on Cloudflare Workers and bound to the existing `dear-you-db` D1 database. The D1 schema migration `worker/migrations/0001_initial.sql` has been applied.
+- **Vercel routing:** set `DEAR_YOU_WORKER_ORIGIN` to `https://dear-you-api.craziestsellerofhistory.workers.dev`. `next.config.ts` proxies `/api/*` before Next.js route handlers, keeping session cookies same-origin on the Vercel site.
+- **Media and payments:** R2 is not activated in the Cloudflare account, so image upload routes return a clear 503 until the owner enables R2 and binds the bucket. Stripe checkout remains unavailable until the owner supplies test-mode credentials and a real recurring test price.
 
 The Worker and PostgreSQL adapters use separate password hash formats (PBKDF2 in Workers, scrypt in the Node app). If accounts are moved between stores, use an explicit migration/password-reset process; do not copy or reinterpret hashes.
 
