@@ -37,7 +37,7 @@ html[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
 .brand-name span { display: block; margin-top: 5px; font-family: var(--font-sans); color: var(--muted); font-size: 8px; letter-spacing: 1.35px; text-transform: uppercase; }
 .sidebar-divider { height: 1px; background: var(--line); margin: 0 3px 23px; }
 .sidebar-label, .eyebrow { margin: 0; font-size: 9px; line-height: 1.5; letter-spacing: 1.7px; color: #a1978d; font-weight: 700; }
-.sidebar-label { padding: 0 11px; margin-bottom: 9px; }
+.sidebar-label { padding: 0 11px; margin-bottom: 8em; }
 .side-nav { display: flex; flex-direction: column; gap: 4px; }
 .side-link { width: 100%; display: flex; gap: 11px; align-items: center; min-height: 42px; padding: 0 11px; border: 1px solid transparent; border-radius: 11px; background: transparent; color: #807a74; font-size: 12px; text-align: left; text-decoration: none; cursor: pointer; transition: color .18s, background .18s, transform .18s, border-color .18s; }
 .side-link:hover { color: var(--ink); background: var(--surface-2); transform: translateX(2px); }
