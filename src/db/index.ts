@@ -3,8 +3,11 @@ import { Pool } from "pg";
 
 const databaseUrl = process.env.DATABASE_URL;
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required");
+// Production API traffic is proxied to the Cloudflare Worker by next.config.ts.
+// Keep the legacy PostgreSQL adapter buildable for Vercel route analysis;
+// local PostgreSQL development still requires DATABASE_URL.
+if (!databaseUrl && process.env.NODE_ENV !== "production") {
+  throw new Error("DATABASE_URL is required for the local PostgreSQL adapter");
 }
 
 const globalForDb = globalThis as typeof globalThis & {
@@ -14,7 +17,9 @@ const globalForDb = globalThis as typeof globalThis & {
 export const pool =
   globalForDb.__arenaNextJsPostgresqlPool ??
   new Pool({
-    connectionString: databaseUrl,
+    ...(databaseUrl ? { connectionString: databaseUrl } : {}),
+    connectionTimeoutMillis: 1500,
+    max: 2,
   });
 
 if (process.env.NODE_ENV !== "production") {
