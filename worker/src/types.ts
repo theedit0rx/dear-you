@@ -24,7 +24,7 @@ export interface R2Bucket {
 
 export interface Env {
   DB: D1Database;
-  MEDIA: R2Bucket;
+  MEDIA?: R2Bucket;
   APP_ORIGIN: string;
   STRIPE_SECRET_KEY?: string;
   STRIPE_PRICE_ID?: string;
