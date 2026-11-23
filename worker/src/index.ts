@@ -532,6 +532,7 @@ async function adminCompetition(request: Request, env: Env) {
 }
 
 async function uploadMedia(request: Request, env: Env) {
+  if (!env.MEDIA) return error("Image uploads are temporarily unavailable while media storage is being activated.", 503);
   const csrf = mutationAllowed(request, env);
   if (csrf) return csrf;
   const auth = await requireActiveUser(request, env);
@@ -557,6 +558,7 @@ async function uploadMedia(request: Request, env: Env) {
 }
 
 async function privateMedia(request: Request, env: Env, id: string) {
+  if (!env.MEDIA) return error("Image storage is not available yet.", 503);
   const auth = await requireActiveUser(request, env);
   if (auth.response) return auth.response;
   const asset = await env.DB.prepare("SELECT object_key AS objectKey,content_type AS contentType FROM media_assets WHERE id=? AND user_id=? LIMIT 1").bind(id, auth.user.id).first<{ objectKey: string; contentType: string }>();
